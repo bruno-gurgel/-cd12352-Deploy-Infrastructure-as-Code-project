@@ -48,24 +48,12 @@ Resources:
             apt-get install nginx awscli -y
             service nginx start
             
-            WEB_DIR="/var/www/html"
+            # Download index.html from S3 bucket
+            aws s3 cp s3://${S3Bucket}/index.html /var/www/html/index.html
             
-            # Create the required index.html file
-            cat <<EOF > index.html
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>Udagram</title>
-            </head>
-            <body>
-                <h1>It works! Udagram, Udacity</h1>
-                <p>This content is served from EC2 instances in private subnets.</p>
-            </body>
-            </html>
-            EOF
-            
-            sudo rm -r $WEB_DIR/index.*
-            sudo cp index.html $WEB_DIR
+            # Set proper permissions
+            chown www-data:www-data /var/www/html/index.html
+            chmod 644 /var/www/html/index.html
             
             # Reload nginx to ensure changes are applied
             systemctl reload nginx
@@ -98,6 +86,11 @@ Resources:
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:ListBucket'
+                Resource:
+                  - !Sub "arn:aws:s3:::${S3Bucket}"
               - Effect: Allow
                 Action:
                   - 's3:GetObject'
