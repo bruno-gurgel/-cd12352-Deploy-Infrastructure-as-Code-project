@@ -148,7 +148,7 @@ The `udagram-parameters.json` file contains the following configurable parameter
 
 The website is live and can be accessed at: 
 
-**http://udacit-webap-c4bmaool8heo-208616444.us-east-1.elb.amazonaws.com/**
+**http://udacit-webap-edul6qztbtn1-255403853.us-east-1.elb.amazonaws.com/**
 
 The website displays: "It works! Udagram, Udacity" and serves content from EC2 instances with S3 integration.
 
